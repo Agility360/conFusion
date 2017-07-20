@@ -3,6 +3,11 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { DishProvider } from '../providers/dish';
+import { LeaderProvider } from '../providers/leader';
+import { ProcessHttpmsgProvider } from '../providers/process-httpmsg';
+import { PromotionProvider } from '../providers/promotion';
+
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
 import { MenuPage } from '../pages/menu/menu';
