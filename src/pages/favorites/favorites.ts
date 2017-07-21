@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { NavController, NavParams, ItemSliding } from 'ionic-angular';
+import { NavController, NavParams, ItemSliding, ToastController } from 'ionic-angular';
 import { FavoriteProvider } from '../../providers/favorite';
 import { Dish } from '../../shared/dish';
 
@@ -22,7 +22,8 @@ export class FavoritesPage implements OnInit {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private favoriteservice: FavoriteProvider,
-    @Inject('BaseURL') private BaseURL) {
+    @Inject('BaseURL') private BaseURL,
+    private toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -41,6 +42,11 @@ export class FavoritesPage implements OnInit {
     this.favoriteservice.deleteFavorite(id)
       .subscribe(favorites => this.favorites = favorites,
         errmess => this.errMess = errmess);
+
+    this.toastCtrl.create({
+      message: 'Dish deleted.',
+      duration: 3000
+    }).present();
 
     // closes SlidingItem buttons
     item.close();
