@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the Reservation page.
@@ -14,11 +14,18 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ReservationPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+      public navParams: NavParams,
+      public viewCtrl: ViewController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Reservation');
+  }
+
+  //closes modal dialogue
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 
 }
