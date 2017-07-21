@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { NavController, NavParams, ItemSliding, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ItemSliding, ToastController, LoadingController } from 'ionic-angular';
 import { FavoriteProvider } from '../../providers/favorite';
 import { Dish } from '../../shared/dish';
 
@@ -23,7 +23,8 @@ export class FavoritesPage implements OnInit {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private favoriteservice: FavoriteProvider,
     @Inject('BaseURL') private BaseURL,
-    private toastCtrl: ToastController) {
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController) {
   }
 
   ngOnInit() {
@@ -39,14 +40,22 @@ export class FavoritesPage implements OnInit {
 
   deleteFavorite(item: ItemSliding, id: number) {
     console.log('delete', id);
-    this.favoriteservice.deleteFavorite(id)
-      .subscribe(favorites => this.favorites = favorites,
-        errmess => this.errMess = errmess);
 
-    this.toastCtrl.create({
+    let loading = this.loadingCtrl.create({
+      content: 'Deleting ...'
+    });
+
+    let toast = this.toastCtrl.create({
       message: 'Dish deleted.',
-      duration: 3000
-    }).present();
+      duration: 2000
+    });
+
+    loading.present();
+
+    this.favoriteservice.deleteFavorite(id)
+      .subscribe(favorites => {this.favorites = favorites; loading.dismiss(); toast.present();},
+        errmess => {this.errMess = errmess; loading.dismiss(); });
+
 
     // closes SlidingItem buttons
     item.close();
