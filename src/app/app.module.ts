@@ -7,6 +7,7 @@ import { DishProvider } from '../providers/dish';
 import { LeaderProvider } from '../providers/leader';
 import { ProcessHttpmsgProvider } from '../providers/process-httpmsg';
 import { PromotionProvider } from '../providers/promotion';
+import { FavoriteProvider } from '../providers/favorite';
 
 import { baseURL } from '../shared/baseurl';
 
@@ -51,7 +52,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     LeaderProvider,
     PromotionProvider,
     ProcessHttpmsgProvider,
-    { provide: 'BaseURL', useValue: baseURL }
+    { provide: 'BaseURL', useValue: baseURL },
+    FavoriteProvider
   ]
 })
 export class AppModule {}

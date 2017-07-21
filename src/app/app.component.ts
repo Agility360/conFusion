@@ -7,6 +7,7 @@ import { DishProvider } from '../providers/dish';
 import { LeaderProvider } from '../providers/leader';
 import { ProcessHttpmsgProvider } from '../providers/process-httpmsg';
 import { PromotionProvider } from '../providers/promotion';
+import { FavoriteProvider } from '../providers/favorite';
 
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
