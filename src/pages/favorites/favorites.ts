@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { NavController, NavParams, ItemSliding, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, ItemSliding, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import { FavoriteProvider } from '../../providers/favorite';
 import { Dish } from '../../shared/dish';
 
@@ -24,7 +24,8 @@ export class FavoritesPage implements OnInit {
     private favoriteservice: FavoriteProvider,
     @Inject('BaseURL') private BaseURL,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController) {
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController) {
   }
 
   ngOnInit() {
@@ -41,24 +42,45 @@ export class FavoritesPage implements OnInit {
   deleteFavorite(item: ItemSliding, id: number) {
     console.log('delete', id);
 
-    let loading = this.loadingCtrl.create({
-      content: 'Deleting ...'
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Delete',
+      message: 'Delete this dish from Favorites?',
+      buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Delete cancelled.');
+            }
+          },
+          {
+            text: 'Delete',
+            handler: () => {
+              let loading = this.loadingCtrl.create({
+                content: 'Deleting ...'
+              });
+
+              let toast = this.toastCtrl.create({
+                message: 'Dish deleted.',
+                duration: 2000
+              });
+
+              loading.present();
+
+              this.favoriteservice.deleteFavorite(id)
+                .subscribe(favorites => {this.favorites = favorites; loading.dismiss(); toast.present();},
+                  errmess => {this.errMess = errmess; loading.dismiss(); });
+
+
+            }
+          }
+      ]
     });
 
-    let toast = this.toastCtrl.create({
-      message: 'Dish deleted.',
-      duration: 2000
-    });
-
-    loading.present();
-
-    this.favoriteservice.deleteFavorite(id)
-      .subscribe(favorites => {this.favorites = favorites; loading.dismiss(); toast.present();},
-        errmess => {this.errMess = errmess; loading.dismiss(); });
-
-
+    alert.present();
     // closes SlidingItem buttons
     item.close();
+
   }
 
 }
