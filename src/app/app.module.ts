@@ -25,7 +25,7 @@ import { LoginPage } from '../pages/login/login';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications} from '@ionic-native/local-notifications';
-
+import { EmailComposer} from '@ionic-native/email-composer';
 
 @NgModule({
   declarations: [
@@ -61,6 +61,7 @@ import { LocalNotifications} from '@ionic-native/local-notifications';
     StatusBar,
     SplashScreen,
     LocalNotifications,
+    EmailComposer,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DishProvider,
     LeaderProvider,
