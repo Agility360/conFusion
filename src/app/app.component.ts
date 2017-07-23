@@ -1,11 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ModalController } from 'ionic-angular';
+import { Nav, Platform, ModalController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalNotifications} from '@ionic-native/local-notifications';
 import { EmailComposer} from '@ionic-native/email-composer';
 import { SocialSharing} from '@ionic-native/social-sharing';
 import { Camera} from '@ionic-native/camera';
+import { Diagnostic} from '@ionic-native/diagnostic';
+import { Network} from '@ionic-native/network';
 
 import { DishProvider } from '../providers/dish';
 import { LeaderProvider } from '../providers/leader';
@@ -29,12 +31,15 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
+  loading: any = null;
 
   pages: Array<{title: string, icon: string, component: any}>;
 
   constructor(public platform: Platform,
       public statusBar: StatusBar,
       public splashScreen: SplashScreen,
+      private loadingCtrl: LoadingController,
+      private network: Network,
       public modelCtrl: ModalController) {
     this.initializeApp();
 
@@ -53,9 +58,32 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-    });
+
+      this.network.onDisconnect()
+        .subscribe(() => {
+          if(!this.loading) {
+            this.loading = this.loadingCtrl.create({
+              content: 'Network Disconnected'
+            });
+            this.loading.present();
+          }
+        });
+
+      this.network.onConnect()
+        .subscribe(() => {
+          setTimeout(() => {
+            if (this.network.type === 'wifi')
+              console.log('We have connected to wifi');
+          }, 3000);
+          if(this.loading) {
+            this.loading.dismiss();
+            this.loading = null;
+          }
+        });
+    })
   }
 
   openPage(page) {
