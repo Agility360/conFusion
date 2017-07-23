@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { Dish } from '../../shared/dish';
 import { Comment } from '../../shared/comment';
 import { FavoriteProvider } from '../../providers/favorite';
+import { SocialSharing} from '@ionic-native/social-sharing';
+import { ActionSheetController } from 'ionic-angular'
 
 
 /**
@@ -27,6 +29,8 @@ export class DishdetailPage {
   constructor(public navCtrl: NavController,
       public navParams: NavParams,
       @Inject('BaseURL') private BaseURL,
+      private actionSheetCtrl: ActionSheetController,
+      private socialSharing: SocialSharing,
       private toastCtrl: ToastController,
       private favoriteservice: FavoriteProvider) {
 
@@ -58,4 +62,52 @@ export class DishdetailPage {
     }).present();
   }
 
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Select Actions',
+      buttons: [
+        {
+          text: 'Share via Facebook',
+          handler: () => {
+            this.socialSharing.shareViaFacebook(this.dish.name + ' -- ' + this.dish.description,
+              this.BaseURL +
+              this.dish.image, '')
+              .then(() => console.log('Posted successfully to Facebook'))
+              .catch(() => console.log('Failed to post to Facebook'));
+          }
+        },
+        {
+          text: 'Share via Twitter',
+          handler: () => {
+            this.socialSharing.shareViaTwitter(this.dish.name + ' -- ' + this.dish.description, this.BaseURL + this.dish.image, '')
+              .then(() => console.log('Posted successfully to Twitter'))
+              .catch(() => console.log('Failed to post to Twitter'));
+          }
+        },
+        {
+          text: 'Add to Favorites',
+          handler: () => {
+              console.log('Favorites clicked');
+              this.addToFavorites();
+          }
+        },
+        {
+          text: 'Add Comment',
+          handler: () => {
+            console.log('Comment clicked');
+            //this.openCommentForm();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+  }
 }

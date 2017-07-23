@@ -22,3 +22,10 @@ $background-pale: #D1C4E9;
 .background-pale {
   background-color: $background-pale
 }
+
+.more-button {
+  float: left;
+  position: absolute;
+  top: 15px;
+  right: 0px;
+}
