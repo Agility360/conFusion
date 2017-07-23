@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { Camera} from '@ionic-native/camera';
 import { Diagnostic} from '@ionic-native/diagnostic';
+import { Network} from '@ionic-native/network';
 
 import { DishProvider } from '../providers/dish';
 import { LeaderProvider } from '../providers/leader';
@@ -71,6 +72,7 @@ import { SocialSharing} from '@ionic-native/social-sharing';
     SocialSharing,
     Camera,
     Diagnostic,
+    Network,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DishProvider,
     LeaderProvider,
