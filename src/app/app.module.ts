@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { Camera} from '@ionic-native/camera';
 
 import { DishProvider } from '../providers/dish';
 import { LeaderProvider } from '../providers/leader';
@@ -21,6 +22,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { FavoritesPage } from '../pages/favorites/favorites';
 import { ReservationPage } from '../pages/reservation/reservation';
 import { LoginPage } from '../pages/login/login';
+import { RegisterPage} from '../pages/register/register';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -38,7 +40,8 @@ import { SocialSharing} from '@ionic-native/social-sharing';
     DishdetailPage,
     FavoritesPage,
     ReservationPage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,8 @@ import { SocialSharing} from '@ionic-native/social-sharing';
     DishdetailPage,
     FavoritesPage,
     ReservationPage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
@@ -64,6 +68,7 @@ import { SocialSharing} from '@ionic-native/social-sharing';
     LocalNotifications,
     EmailComposer,
     SocialSharing,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DishProvider,
     LeaderProvider,
